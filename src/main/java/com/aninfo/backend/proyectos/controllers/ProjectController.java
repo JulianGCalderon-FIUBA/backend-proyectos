@@ -1,6 +1,7 @@
 package com.aninfo.backend.proyectos.controllers;
 
 import com.aninfo.backend.proyectos.models.Project;
+import com.aninfo.backend.proyectos.models.Task;
 import com.aninfo.backend.proyectos.services.ProjectService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -49,5 +50,16 @@ public class ProjectController {
     @DeleteMapping("/{id}")
     public void deleteProject(@PathVariable Long id) {
         projectService.deleteById(id);
+    }
+
+    @PostMapping("/{id}/tasks")
+    @ResponseStatus(HttpStatus.CREATED)
+    public Task createTask(@RequestBody Task task, @PathVariable Long id) {
+        return projectService.createTaskById(task, id);
+    }
+
+    @GetMapping("/{id}/tasks")
+    public Collection<Task> getTasks(@PathVariable Long id) {
+        return projectService.getTasksById(id);
     }
 }

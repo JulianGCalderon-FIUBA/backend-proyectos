@@ -1,0 +1,40 @@
+package com.aninfo.backend.proyectos.controllers;
+
+import com.aninfo.backend.proyectos.models.Task;
+import com.aninfo.backend.proyectos.services.TaskService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+import java.util.Optional;
+
+@RestController
+@RequestMapping("/tasks")
+public class TaskController {
+
+    @Autowired
+    TaskService taskService;
+
+    @GetMapping("/{id}")
+    public ResponseEntity<Task> getTask(@PathVariable Long id) {
+        Optional<Task> taskOptional = taskService.findById(id);
+        return ResponseEntity.of(taskOptional);
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<Task> updateTask(@RequestBody Task task, @PathVariable Long id) {
+        Optional<Task> taskOptional = taskService.findById(id);
+
+        if (!taskOptional.isPresent()) {
+            return ResponseEntity.notFound().build();
+        }
+
+        taskService.save(task);
+        return ResponseEntity.ok().build();
+    }
+
+    @DeleteMapping("/{id}")
+    public void deleteProject(@PathVariable Long id) {
+        taskService.deleteById(id);
+    }
+
+}
