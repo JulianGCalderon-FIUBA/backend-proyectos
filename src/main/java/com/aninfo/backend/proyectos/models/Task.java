@@ -1,5 +1,4 @@
 package com.aninfo.backend.proyectos.models;
-
 import javax.persistence.*;
 
 @Entity
@@ -15,7 +14,7 @@ public class Task {
     private Project project;
 
     private String name;
-    private int priority;
-    private int status;
+    private TaskPriority priority;
+    private TaskStatus status;
     private int consumedHours;
 }
