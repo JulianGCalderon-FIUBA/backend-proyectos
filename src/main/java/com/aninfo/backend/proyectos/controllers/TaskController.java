@@ -5,6 +5,7 @@ import com.aninfo.backend.proyectos.services.TaskService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
 import java.util.Optional;
 
 @RestController
@@ -22,11 +23,11 @@ public class TaskController {
 
     @PutMapping("/{id}")
     public ResponseEntity<Task> updateTask(@RequestBody Task task, @PathVariable Long id) {
-        if (taskService.existsTask(id)) {
-            taskService.updateTask(task, id);
-            return ResponseEntity.ok().build();
+        if (taskService.findById(id).isEmpty()) {
+            return ResponseEntity.notFound().build();
         }
-        return ResponseEntity.notFound().build();
+        taskService.updateTaskById(task, id);
+        return ResponseEntity.ok().build();
     }
 
     @DeleteMapping("/{id}")

@@ -41,11 +41,11 @@ public class ProjectController {
 
     @PutMapping("/{id}")
     public ResponseEntity<Project> updateProject(@RequestBody Project project, @PathVariable Long id) {
-        if (projectService.existsProject(id)) {
-            projectService.updateProject(project, id);
-            return ResponseEntity.ok().build();
+        if (projectService.findById(id).isEmpty()) {
+            return ResponseEntity.notFound().build();
         }
-        return ResponseEntity.notFound().build();
+        projectService.updateById(project, id);
+        return ResponseEntity.ok().build();
     }
 
     @DeleteMapping("/{id}")

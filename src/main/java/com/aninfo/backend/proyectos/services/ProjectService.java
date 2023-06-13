@@ -1,7 +1,8 @@
 package com.aninfo.backend.proyectos.services;
 
 import com.aninfo.backend.proyectos.models.Project;
-import com.aninfo.backend.proyectos.models.Task;
+import com.aninfo.backend.proyectos.repositories.ProjectRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -11,6 +12,9 @@ import java.util.Optional;
 @Service
 public class ProjectService {
 
+    @Autowired
+    ProjectRepository projectRepository;
+
     public Project createProject(Project project) {
         // TODO
         return new Project();
@@ -18,7 +22,7 @@ public class ProjectService {
 
     public Collection<Project> getProjects() {
         // TODO
-        return new ArrayList<Project>() {{add(new Project()); }};
+        return new ArrayList<>() {{add(new Project()); }};
     }
 
     public Optional<Project> findById(Long id) {
@@ -26,30 +30,12 @@ public class ProjectService {
         return Optional.empty();
     }
 
-    public void saveProject(Project project) {
-        // TODO
-    }
 
     public void deleteById(Long id) {
         // TODO
     }
 
-    public Task createTaskById(Task task, Long id) {
-        // TODO
-        return new Task();
-    }
-
-    public Collection<Task> getTasksById(Long id) {
-        // TODO
-        return new ArrayList<Task>() {{add(new Task()); }};
-    }
-
-    public boolean existsProject(Long id) {
-        // TODO
-        return true;
-    }
-
-    public void updateProject(Project project, Long id) {
+    public void updateById(Project project, Long id) {
         // TODO
     }
 }
