@@ -29,7 +29,7 @@ public class ProjectController {
 
     @GetMapping("")
     @ResponseStatus(HttpStatus.OK)
-    public Collection<Project> getProjects() {
+    public Iterable<Project> getProjects() {
         return projectService.getProjects();
     }
 

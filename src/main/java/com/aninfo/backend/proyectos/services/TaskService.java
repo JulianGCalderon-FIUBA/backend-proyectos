@@ -1,7 +1,7 @@
 package com.aninfo.backend.proyectos.services;
 
 import com.aninfo.backend.proyectos.models.Task;
-import com.aninfo.backend.proyectos.repositories.ProjectRepository;
+import com.aninfo.backend.proyectos.repositories.TaskRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -13,7 +13,7 @@ import java.util.Optional;
 public class TaskService {
 
     @Autowired
-    ProjectRepository taskRepository;
+    TaskRepository taskRepository;
 
     public Optional<Task> findById(Long id) {
         // TODO

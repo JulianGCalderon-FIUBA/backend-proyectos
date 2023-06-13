@@ -16,13 +16,12 @@ public class ProjectService {
     ProjectRepository projectRepository;
 
     public Project createProject(Project project) {
-        // TODO
-        return new Project();
+        project.setId(0L);
+        return projectRepository.save(project);
     }
 
-    public Collection<Project> getProjects() {
-        // TODO
-        return new ArrayList<>() {{add(new Project()); }};
+    public Iterable<Project> getProjects() {
+        return projectRepository.findAll();
     }
 
     public Optional<Project> findById(Long id) {

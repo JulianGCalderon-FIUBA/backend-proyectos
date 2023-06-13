@@ -1,13 +1,16 @@
 package com.aninfo.backend.proyectos.models;
 
 import javax.persistence.*;
+import java.io.Serializable;
 
 @Entity
 @Table(name = "order")
-public class Order {
+@IdClass(Order.class)
+public class Order implements Serializable {
     @Id
-    private Long projectId;
+    private long projectId;
 
     @Id
-    private Long clientId;
+    private long clientId;
 }
+
