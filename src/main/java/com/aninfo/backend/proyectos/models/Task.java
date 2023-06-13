@@ -18,10 +18,13 @@ public class Task {
 
     private String description;
 
-    private Date due_date;
+    @Column(name = "due_date")
+    private Date dueDate;
     private TaskPriority priority;
     private TaskState state;
-    private int consumed_hours;
+
+    @Column(name = "consumed_hours")
+    private int consumedHours;
 
     public String getName() {
         return name;
@@ -40,11 +43,11 @@ public class Task {
     }
 
     public Date getDueDate() {
-        return due_date;
+        return dueDate;
     }
 
     public void setDueDate(Date due_date) {
-        this.due_date = due_date;
+        this.dueDate = due_date;
     }
 
     public TaskPriority getPriority() {
@@ -55,14 +58,12 @@ public class Task {
         this.priority = priority;
     }
 
-
-
     public int getConsumedHours() {
-        return consumed_hours;
+        return consumedHours;
     }
 
     public void setConsumedHours(int consumedHours) {
-        this.consumed_hours = consumedHours;
+        this.consumedHours = consumedHours;
     }
 
     public Project getProject() {

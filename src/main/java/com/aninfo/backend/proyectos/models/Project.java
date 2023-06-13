@@ -16,7 +16,9 @@ public class Project {
 
     private String name;
     private String description;
-    private int consumed_hours;
+
+    @Column(name = "consumed_hours")
+    private int consumedHours;
 
     public String getName() {
         return name;
@@ -24,11 +26,11 @@ public class Project {
 
     public Long getId() {
         return id;
-    };
+    }
 
     public void setId(Long id) {
         this.id = id;
-    };
+    }
 
     public void setName(String name) {
         this.name = name;
@@ -43,10 +45,10 @@ public class Project {
     }
 
     public int getConsumedHours() {
-        return consumed_hours;
+        return consumedHours;
     }
 
     public void setConsumedHours(int consumedHours) {
-        this.consumed_hours = consumedHours;
+        this.consumedHours = consumedHours;
     }
 }

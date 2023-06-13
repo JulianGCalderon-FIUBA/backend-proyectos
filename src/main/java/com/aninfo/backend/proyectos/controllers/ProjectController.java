@@ -55,12 +55,12 @@ public class ProjectController {
 
     @PostMapping("/{id}/tasks")
     @ResponseStatus(HttpStatus.CREATED)
-    public Task createTask(@RequestBody Task task, @PathVariable Long id) {
-        return taskService.createTask(task, id);
+    public Task createTask(@RequestBody Task task, @PathVariable("id") Long projectId) {
+        return taskService.createTask(task, projectId);
     }
 
     @GetMapping("/{id}/tasks")
-    public Collection<Task> getTasks(@PathVariable Long id) {
-        return taskService.getTasksForProject(id);
+    public Collection<Task> getTasks(@PathVariable("id") Long projectId) {
+        return taskService.getTasksForProject(projectId);
     }
 }

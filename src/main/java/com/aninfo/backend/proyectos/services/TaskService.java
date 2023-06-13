@@ -31,7 +31,9 @@ public class TaskService {
 
     public Collection<Task> getTasksForProject(Long id) {
         // TODO
-        return new ArrayList<Task>() {{add(new Task());}};
+        return new ArrayList<>() {{
+            add(new Task());
+        }};
     }
 
     public void updateTaskById(Task task, Long id) {
