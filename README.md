@@ -8,7 +8,7 @@ El modulo es desarrollado por el squad 3, de la tribu B.
 - PostgresSQL: 15.3
 - Swagger2: 3.0.0
 
-# Credenciales PostgresSQL
+### Credenciales PostgresSQL
 Estas son configurables en el archivo de propiedades del proyecto, 
 pero actualmente esta configurado como:
 - username: postgres
