@@ -26,7 +26,7 @@ public class ProjectService {
         return Optional.empty();
     }
 
-    public void save(Project project) {
+    public void saveProject(Project project) {
         // TODO
     }
 
@@ -42,5 +42,14 @@ public class ProjectService {
     public Collection<Task> getTasksById(Long id) {
         // TODO
         return new ArrayList<Task>() {{add(new Task()); }};
+    }
+
+    public boolean existsProject(Long id) {
+        // TODO
+        return true;
+    }
+
+    public void updateProject(Project project, Long id) {
+        // TODO
     }
 }

@@ -22,14 +22,11 @@ public class TaskController {
 
     @PutMapping("/{id}")
     public ResponseEntity<Task> updateTask(@RequestBody Task task, @PathVariable Long id) {
-        Optional<Task> taskOptional = taskService.findById(id);
-
-        if (!taskOptional.isPresent()) {
-            return ResponseEntity.notFound().build();
+        if (taskService.existsTask(id)) {
+            taskService.updateTask(task, id);
+            return ResponseEntity.ok().build();
         }
-
-        taskService.save(task);
-        return ResponseEntity.ok().build();
+        return ResponseEntity.notFound().build();
     }
 
     @DeleteMapping("/{id}")

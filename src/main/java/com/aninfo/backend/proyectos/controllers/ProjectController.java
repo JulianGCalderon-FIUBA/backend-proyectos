@@ -3,6 +3,7 @@ package com.aninfo.backend.proyectos.controllers;
 import com.aninfo.backend.proyectos.models.Project;
 import com.aninfo.backend.proyectos.models.Task;
 import com.aninfo.backend.proyectos.services.ProjectService;
+import com.aninfo.backend.proyectos.services.TaskService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,6 +18,8 @@ public class ProjectController {
 
     @Autowired
     ProjectService projectService;
+    @Autowired
+    TaskService taskService;
 
     @PostMapping("")
     @ResponseStatus(HttpStatus.CREATED)
@@ -25,6 +28,7 @@ public class ProjectController {
     }
 
     @GetMapping("")
+    @ResponseStatus(HttpStatus.OK)
     public Collection<Project> getProjects() {
         return projectService.getProjects();
     }
@@ -37,14 +41,11 @@ public class ProjectController {
 
     @PutMapping("/{id}")
     public ResponseEntity<Project> updateProject(@RequestBody Project project, @PathVariable Long id) {
-        Optional<Project> projectOptional = projectService.findById(id);
-
-        if (!projectOptional.isPresent()) {
-            return ResponseEntity.notFound().build();
+        if (projectService.existsProject(id)) {
+            projectService.updateProject(project, id);
+            return ResponseEntity.ok().build();
         }
-
-        projectService.save(project);
-        return ResponseEntity.ok().build();
+        return ResponseEntity.notFound().build();
     }
 
     @DeleteMapping("/{id}")
@@ -55,11 +56,11 @@ public class ProjectController {
     @PostMapping("/{id}/tasks")
     @ResponseStatus(HttpStatus.CREATED)
     public Task createTask(@RequestBody Task task, @PathVariable Long id) {
-        return projectService.createTaskById(task, id);
+        return taskService.createTask(task, id);
     }
 
     @GetMapping("/{id}/tasks")
     public Collection<Task> getTasks(@PathVariable Long id) {
-        return projectService.getTasksById(id);
+        return taskService.getTasksForProject(id);
     }
 }
