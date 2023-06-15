@@ -44,18 +44,18 @@ public class ProjectController {
         if (projectService.findById(id).isEmpty()) {
             return ResponseEntity.notFound().build();
         }
-        projectService.updateById(project, id);
+        projectService.updateProject(project, id);
         return ResponseEntity.ok().build();
     }
 
     @DeleteMapping("/{id}")
     public void deleteProject(@PathVariable Long id) {
-        projectService.deleteById(id);
+        projectService.deleteProject(id);
     }
 
     @PostMapping("/{id}/tasks")
     @ResponseStatus(HttpStatus.CREATED)
-    public Task createTask(@RequestBody Task task, @PathVariable("id") Long projectId) {
+    public Task createTaskForProject(@RequestBody Task task, @PathVariable("id") Long projectId) {
         return taskService.createTask(task, projectId);
     }
 

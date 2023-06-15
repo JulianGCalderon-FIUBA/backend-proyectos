@@ -11,11 +11,13 @@ public class Project {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @OneToMany(mappedBy = "project", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "project", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Collection<Task> tasks;
 
     private String name;
     private String description;
+    @Column(name = "client_id")
+    private Long clientId;
 
     @Column(name = "consumed_hours")
     private int consumedHours;
@@ -50,5 +52,13 @@ public class Project {
 
     public void setConsumedHours(int consumedHours) {
         this.consumedHours = consumedHours;
+    }
+
+    public Long getClientId() {
+        return clientId;
+    }
+
+    public void setClientId(Long clientId) {
+        this.clientId = clientId;
     }
 }
