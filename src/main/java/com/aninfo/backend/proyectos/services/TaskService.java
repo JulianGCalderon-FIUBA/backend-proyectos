@@ -40,8 +40,8 @@ public class TaskService {
         return taskRepository.findAllByProjectId(projectId);
     }
 
-    public void updateTask(Task task, Long id) {
+    public Task updateTask(Task task, Long id) {
         task.setId(id);
-        taskRepository.save(task);
+        return taskRepository.save(task);
     }
 }

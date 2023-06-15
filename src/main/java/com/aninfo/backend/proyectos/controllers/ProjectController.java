@@ -44,8 +44,8 @@ public class ProjectController {
         if (projectService.findById(id).isEmpty()) {
             return ResponseEntity.notFound().build();
         }
-        projectService.updateProject(project, id);
-        return ResponseEntity.ok().build();
+        Project updatedProject = projectService.updateProject(project, id);
+        return ResponseEntity.ok(updatedProject);
     }
 
     @DeleteMapping("/{id}")
