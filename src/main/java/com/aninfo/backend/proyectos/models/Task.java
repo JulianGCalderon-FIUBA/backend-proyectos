@@ -24,6 +24,9 @@ public class Task {
 
     private String description;
 
+    @Column(name = "resource_id")
+    private Long resourceId;
+
     @Column(name = "due_date")
     private Date dueDate;
     private TaskPriority priority;
@@ -95,5 +98,13 @@ public class Task {
 
     public Long getProjectId() {
         return projectId;
+    }
+
+    public Long getResourceId() {
+        return resourceId;
+    }
+
+    public void setResourceId(Long resourceId) {
+        this.resourceId = resourceId;
     }
 }
