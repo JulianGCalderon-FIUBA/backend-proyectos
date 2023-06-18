@@ -31,8 +31,6 @@ public class TaskService {
         task.setId(0L);
         Project project = projectRepository.findById(projectId).orElseThrow(() -> new IllegalArgumentException("Project not found"));
         task.setProject(project);
-        System.out.printf("Task Name: %s\n", task.getName());
-        System.out.println(task.getProjectId());
         return taskRepository.save(task);
     }
 

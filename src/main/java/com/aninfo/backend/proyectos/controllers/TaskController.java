@@ -26,8 +26,8 @@ public class TaskController {
         if (taskService.findById(id).isEmpty()) {
             return ResponseEntity.notFound().build();
         }
-        Task updatedTask = taskService.updateTask(task, id);
-        return ResponseEntity.ok(updatedTask);
+        taskService.updateTask(task, id);
+        return ResponseEntity.ok().build();
     }
 
     @DeleteMapping("/{id}")

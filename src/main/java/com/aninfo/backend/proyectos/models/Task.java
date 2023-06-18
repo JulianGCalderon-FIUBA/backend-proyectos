@@ -1,4 +1,6 @@
 package com.aninfo.backend.proyectos.models;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.sql.Date;
 
@@ -15,6 +17,7 @@ public class Task {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "project_id", insertable = false, updatable = false)
+    @JsonIgnore
     private Project project;
 
     private String name;
