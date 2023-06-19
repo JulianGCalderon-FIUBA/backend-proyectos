@@ -3,8 +3,7 @@ CREATE TABLE IF NOT EXISTS public.project
     id bigint NOT NULL DEFAULT nextval('project_id_seq'::regclass),
     consumed_hours integer NOT NULL,
     name character varying(32) COLLATE pg_catalog."default" NOT NULL,
-    description character varying(256) COLLATE pg_catalog."default",
-    client_id bigint,
+    description character varying(256) COLLATE pg_catalog."default",p
     leader_id bigint,
     start_date date NOT NULL,
     end_date date,

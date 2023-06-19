@@ -17,9 +17,6 @@ public class Project {
 
     private String name;
     private String description;
-    @Column(name = "client_id")
-    private Long clientId;
-
     @Column(name = "leader_id")
     private Long leaderId;
 
@@ -64,14 +61,6 @@ public class Project {
 
     public void setConsumedHours(int consumedHours) {
         this.consumedHours = consumedHours;
-    }
-
-    public Long getClientId() {
-        return clientId;
-    }
-
-    public void setClientId(Long clientId) {
-        this.clientId = clientId;
     }
 
     public Long getLeaderId() {
