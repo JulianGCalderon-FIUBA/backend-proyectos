@@ -1,4 +1,6 @@
 package com.aninfo.backend.proyectos.models;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.sql.Date;
 
@@ -10,13 +12,20 @@ public class Task {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne()
-    @JoinColumn(name="project_id", nullable = false)
+    @Column(name = "project_id")
+    private Long projectId;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "project_id", insertable = false, updatable = false)
+    @JsonIgnore
     private Project project;
 
     private String name;
 
     private String description;
+
+    @Column(name = "resource_id")
+    private Long resourceId;
 
     @Column(name = "due_date")
     private Date dueDate;
@@ -66,19 +75,36 @@ public class Task {
         this.consumedHours = consumedHours;
     }
 
-    public Project getProject() {
-        return project;
-    }
-
-    public void setProject(Project project) {
-        this.project = project;
-    }
-
     public TaskState getState() {
         return state;
     }
 
     public void setState(TaskState state) {
         this.state = state;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
+
+    public Long getId() {
+        return this.id;
+    }
+
+    public void setProject(Project project) {
+        this.project = project;
+        this.projectId = project.getId();
+    }
+
+    public Long getProjectId() {
+        return projectId;
+    }
+
+    public Long getResourceId() {
+        return resourceId;
+    }
+
+    public void setResourceId(Long resourceId) {
+        this.resourceId = resourceId;
     }
 }

@@ -26,13 +26,13 @@ public class TaskController {
         if (taskService.findById(id).isEmpty()) {
             return ResponseEntity.notFound().build();
         }
-        taskService.updateTaskById(task, id);
+        taskService.updateTask(task, id);
         return ResponseEntity.ok().build();
     }
 
     @DeleteMapping("/{id}")
     public void deleteProject(@PathVariable Long id) {
-        taskService.deleteById(id);
+        taskService.deleteTask(id);
     }
 
 }
