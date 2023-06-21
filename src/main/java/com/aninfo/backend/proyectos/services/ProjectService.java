@@ -1,12 +1,11 @@
 package com.aninfo.backend.proyectos.services;
 
+import com.aninfo.backend.proyectos.exceptions.ProjectNotFoundException;
 import com.aninfo.backend.proyectos.models.Project;
-import com.aninfo.backend.proyectos.models.Task;
 import com.aninfo.backend.proyectos.repositories.ProjectRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Collection;
 import java.util.Optional;
 
 @Service
@@ -24,16 +23,30 @@ public class ProjectService {
         return projectRepository.findAll();
     }
 
-    public Optional<Project> findById(Long id) {
-        return projectRepository.findById(id);
+    public Project findById(Long id) {
+        Optional<Project> project = projectRepository.findById(id);
+        if (project.isEmpty()) {
+            throw new ProjectNotFoundException("Project not found with ID: " + id);
+        }
+        return project.get();
     }
 
     public void deleteProject(Long id) {
-        projectRepository.deleteById(id);
+        try {
+            this.findById(id);
+            projectRepository.deleteById(id);
+        } catch (ProjectNotFoundException e) {
+            throw e;
+        }
     }
 
-    public Project updateProject(Project project, Long id) {
-        project.setId(id);
-        return projectRepository.save(project);
+    public void updateProject(Project project, Long id) {
+        try {
+            this.findById(id);
+            project.setId(id);
+            projectRepository.save(project);
+        } catch (ProjectNotFoundException e) {
+            throw e;
+        }
     }
 }

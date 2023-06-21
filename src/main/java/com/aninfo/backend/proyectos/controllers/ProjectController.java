@@ -1,16 +1,16 @@
 package com.aninfo.backend.proyectos.controllers;
 
+import com.aninfo.backend.proyectos.exceptions.ProjectNotFoundException;
 import com.aninfo.backend.proyectos.models.Project;
 import com.aninfo.backend.proyectos.models.Task;
 import com.aninfo.backend.proyectos.services.ProjectService;
 import com.aninfo.backend.proyectos.services.TaskService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.Collection;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/projects")
@@ -34,33 +34,55 @@ public class ProjectController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Project> getProject(@PathVariable Long id) {
-        Optional<Project> projectOptional = projectService.findById(id);
-        return ResponseEntity.of(projectOptional);
+    public Project getProject(@PathVariable Long id) {
+        try {
+            return projectService.findById(id);
+        } catch(ProjectNotFoundException e) {
+            System.out.println("Error while getting project with id: " + id);
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage(), e);
+        }
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Project> updateProject(@RequestBody Project project, @PathVariable Long id) {
-        if (projectService.findById(id).isEmpty()) {
-            return ResponseEntity.notFound().build();
+    @ResponseStatus(HttpStatus.OK)
+    public void updateProject(@RequestBody Project project, @PathVariable Long id) {
+        try {
+            projectService.updateProject(project, id);
+        } catch (ProjectNotFoundException e) {
+            System.out.println("Error while updating project with id: " + id);
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage(), e);
         }
-        projectService.updateProject(project, id);
-        return ResponseEntity.ok().build();
     }
 
     @DeleteMapping("/{id}")
+    @ResponseStatus(HttpStatus.OK)
     public void deleteProject(@PathVariable Long id) {
-        projectService.deleteProject(id);
+        try {
+            projectService.deleteProject(id);
+        } catch (ProjectNotFoundException e) {
+            System.out.println("Error while deleting project with id: " + id);
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage(), e);
+        }
     }
 
     @PostMapping("/{id}/tasks")
     @ResponseStatus(HttpStatus.CREATED)
     public Task createTaskForProject(@RequestBody Task task, @PathVariable("id") Long projectId) {
-        return taskService.createTask(task, projectId);
+        try {
+            return taskService.createTask(task, projectId);
+        } catch (ProjectNotFoundException e) {
+            System.out.println("Error while creating task for project with id: " + projectId);
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage(), e);
+        }
     }
 
     @GetMapping("/{id}/tasks")
     public Collection<Task> getTasks(@PathVariable("id") Long projectId) {
-        return taskService.getTasksForProject(projectId);
+        try {
+            return taskService.getTasksForProject(projectId);
+        } catch (ProjectNotFoundException e) {
+            System.out.println("Error while getting tasks for project with id: " + projectId);
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage(), e);
+        }
     }
 }

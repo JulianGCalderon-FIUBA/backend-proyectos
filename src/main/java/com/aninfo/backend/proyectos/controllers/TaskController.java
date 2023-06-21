@@ -1,12 +1,12 @@
 package com.aninfo.backend.proyectos.controllers;
 
+import com.aninfo.backend.proyectos.exceptions.TaskNotFoundException;
 import com.aninfo.backend.proyectos.models.Task;
 import com.aninfo.backend.proyectos.services.TaskService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.Optional;
+import org.springframework.web.server.ResponseStatusException;
 
 @RestController
 @RequestMapping("/tasks")
@@ -16,23 +16,35 @@ public class TaskController {
     TaskService taskService;
 
     @GetMapping("/{id}")
-    public ResponseEntity<Task> getTask(@PathVariable Long id) {
-        Optional<Task> taskOptional = taskService.findById(id);
-        return ResponseEntity.of(taskOptional);
+    @ResponseStatus(HttpStatus.OK)
+    public Task getTask(@PathVariable Long id) {
+        try {
+            return taskService.findById(id);
+        } catch(TaskNotFoundException e) {
+            System.out.println("Error while getting task with id: " + id);
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage(), e);
+        }
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Task> updateTask(@RequestBody Task task, @PathVariable Long id) {
-        if (taskService.findById(id).isEmpty()) {
-            return ResponseEntity.notFound().build();
+    @ResponseStatus(HttpStatus.OK)
+    public void updateTask(@RequestBody Task task, @PathVariable Long id) {
+        try {
+            taskService.updateTask(task, id);
+        } catch (TaskNotFoundException e) {
+            System.out.println("Error while updating task with id: " + id);
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage(), e);
         }
-        taskService.updateTask(task, id);
-        return ResponseEntity.ok().build();
     }
 
     @DeleteMapping("/{id}")
-    public void deleteProject(@PathVariable Long id) {
-        taskService.deleteTask(id);
+    public void deleteTask(@PathVariable Long id) {
+        try {
+            taskService.deleteTask(id);
+        } catch (TaskNotFoundException e) {
+            System.out.println("Error while deleting task with id: " + id);
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage(), e);
+        }
     }
 
 }
