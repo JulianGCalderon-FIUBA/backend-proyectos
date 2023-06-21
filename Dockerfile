@@ -1,6 +1,6 @@
 FROM eclipse-temurin:17-jdk-alpine as build
 COPY gradle gradle
-COPY gradlew .
+COPY --chmod=x gradlew .
 COPY build.gradle.kts .
 COPY settings.gradle.kts .
 COPY src src
