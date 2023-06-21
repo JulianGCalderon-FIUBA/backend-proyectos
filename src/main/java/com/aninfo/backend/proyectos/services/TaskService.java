@@ -1,6 +1,6 @@
 package com.aninfo.backend.proyectos.services;
 
-import com.aninfo.backend.proyectos.exceptions.ProjectNotFoundException;
+import com.aninfo.backend.proyectos.exceptions.InvalidTaskAttributesException;
 import com.aninfo.backend.proyectos.exceptions.TaskNotFoundException;
 import com.aninfo.backend.proyectos.models.Project;
 import com.aninfo.backend.proyectos.models.Task;
@@ -20,6 +20,19 @@ public class TaskService {
     @Autowired
     ProjectService projectService;
 
+    private boolean taskHasValidAttributes(Task task) {
+
+        return task.getConsumedHours() >= 0;
+    }
+
+    private Task saveTaskWithId(Task task, Long id) {
+        if (!taskHasValidAttributes(task)) {
+            throw new InvalidTaskAttributesException("Task does not have valid attributes");
+        }
+        task.setId(id);
+        return taskRepository.save(task);
+    }
+
     public Task findById(Long id) {
         Optional<Task> task = taskRepository.findById(id);
         if (task.isEmpty()) {
@@ -29,41 +42,23 @@ public class TaskService {
     }
 
     public void deleteTask(Long id) {
-        try {
-            this.findById(id);
-            taskRepository.deleteById(id);
-        } catch (TaskNotFoundException e) {
-            throw e;
-        }
+        this.findById(id);
+        taskRepository.deleteById(id);
     }
 
     public Task createTask(Task task, Long projectId) {
-        task.setId(0L);
-        try {
-            Project project = projectService.findById(projectId);
-            task.setProject(project);
-            return taskRepository.save(task);
-        } catch (ProjectNotFoundException e) {
-            throw e;
-        }
+        Project project = projectService.findById(projectId);
+        task.setProject(project);
+        return saveTaskWithId(task,0L);
     }
 
     public Collection<Task> getTasksForProject(Long projectId) {
-        try {
-            projectService.findById(projectId);
-            return taskRepository.findAllByProjectId(projectId);
-        } catch (ProjectNotFoundException e) {
-            throw e;
-        }
+        projectService.findById(projectId);
+        return taskRepository.findAllByProjectId(projectId);
     }
 
     public void updateTask(Task task, Long id) {
-        try {
-            this.findById(id);
-            task.setId(id);
-            taskRepository.save(task);
-        } catch (TaskNotFoundException e) {
-            throw e;
-        }
+        this.findById(id);
+        saveTaskWithId(task, id);
     }
 }

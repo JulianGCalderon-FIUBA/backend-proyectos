@@ -1,5 +1,7 @@
 package com.aninfo.backend.proyectos.controllers;
 
+import com.aninfo.backend.proyectos.exceptions.InvalidProjectAttributesException;
+import com.aninfo.backend.proyectos.exceptions.InvalidTaskAttributesException;
 import com.aninfo.backend.proyectos.exceptions.ProjectNotFoundException;
 import com.aninfo.backend.proyectos.models.Project;
 import com.aninfo.backend.proyectos.models.Task;
@@ -24,7 +26,12 @@ public class ProjectController {
     @PostMapping("")
     @ResponseStatus(HttpStatus.CREATED)
     public Project createProject(@RequestBody Project project) {
-        return projectService.createProject(project);
+        try {
+            return projectService.createProject(project);
+        } catch (InvalidProjectAttributesException e) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage(), e);
+        }
+
     }
 
     @GetMapping("")
@@ -51,6 +58,8 @@ public class ProjectController {
         } catch (ProjectNotFoundException e) {
             System.out.println("Error while updating project with id: " + id);
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage(), e);
+        } catch (InvalidProjectAttributesException e) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage(), e);
         }
     }
 
@@ -73,6 +82,8 @@ public class ProjectController {
         } catch (ProjectNotFoundException e) {
             System.out.println("Error while creating task for project with id: " + projectId);
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage(), e);
+        } catch (InvalidTaskAttributesException e) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage(), e);
         }
     }
 

@@ -1,5 +1,6 @@
 package com.aninfo.backend.proyectos.services;
 
+import com.aninfo.backend.proyectos.exceptions.InvalidProjectAttributesException;
 import com.aninfo.backend.proyectos.exceptions.ProjectNotFoundException;
 import com.aninfo.backend.proyectos.models.Project;
 import com.aninfo.backend.proyectos.repositories.ProjectRepository;
@@ -7,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
+import java.util.Date;
 
 @Service
 public class ProjectService {
@@ -14,9 +16,23 @@ public class ProjectService {
     @Autowired
     ProjectRepository projectRepository;
 
-    public Project createProject(Project project) {
-        project.setId(0L);
+    private boolean projectHasValidAttributes(Project project) {
+        Date endDate = project.getEndDate();
+        Date startDate = project.getStartDate();
+
+        return project.getConsumedHours() >= 0 && startDate.compareTo(endDate) <= 0;
+    }
+
+    private Project saveProjectWithId(Project project, Long id) {
+        if (!projectHasValidAttributes(project)) {
+            throw new InvalidProjectAttributesException("Project does not have valid attributes");
+        }
+        project.setId(id);
         return projectRepository.save(project);
+    }
+
+    public Project createProject(Project project) {
+        return saveProjectWithId(project, 0L);
     }
 
     public Iterable<Project> getProjects() {
@@ -32,21 +48,12 @@ public class ProjectService {
     }
 
     public void deleteProject(Long id) {
-        try {
-            this.findById(id);
-            projectRepository.deleteById(id);
-        } catch (ProjectNotFoundException e) {
-            throw e;
-        }
+        this.findById(id);
+        projectRepository.deleteById(id);
     }
 
     public void updateProject(Project project, Long id) {
-        try {
-            this.findById(id);
-            project.setId(id);
-            projectRepository.save(project);
-        } catch (ProjectNotFoundException e) {
-            throw e;
-        }
+        this.findById(id);
+        saveProjectWithId(project, id);
     }
 }
