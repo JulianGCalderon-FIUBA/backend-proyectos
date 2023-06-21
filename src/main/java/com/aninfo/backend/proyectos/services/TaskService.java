@@ -21,7 +21,6 @@ public class TaskService {
     ProjectService projectService;
 
     private boolean taskHasValidAttributes(Task task) {
-
         return task.getConsumedHours() >= 0;
     }
 
