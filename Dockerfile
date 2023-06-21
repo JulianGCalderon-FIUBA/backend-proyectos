@@ -2,7 +2,6 @@ FROM eclipse-temurin:17-jdk-alpine
 
 
 COPY gradle gradle
-COPY .gradle .gradle
 COPY build.gradle.kts .
 COPY gradlew .
 COPY gradlew.bat .
