@@ -9,5 +9,4 @@ class AninfoBackendProyectosApplicationTests {
     @Test
     void contextLoads() {
     }
-
 }
