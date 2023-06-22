@@ -1,8 +1,10 @@
 package com.aninfo.backend.proyectos.services;
 
 import com.aninfo.backend.proyectos.exceptions.InvalidProjectAttributesException;
+import com.aninfo.backend.proyectos.exceptions.InvalidTaskAttributesException;
 import com.aninfo.backend.proyectos.exceptions.ProjectNotFoundException;
 import com.aninfo.backend.proyectos.models.Project;
+import com.aninfo.backend.proyectos.models.Task;
 import com.aninfo.backend.proyectos.repositories.ProjectRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -16,17 +18,23 @@ public class ProjectService {
     @Autowired
     ProjectRepository projectRepository;
 
-    private boolean projectHasValidAttributes(Project project) {
+    private void assertProjectHasValidAttributes(Project project) {
+        if (project.getName() == null || project.getStartDate() == null || project.getState() == null) {
+            throw new InvalidProjectAttributesException("Project cannot have null parameters");
+        }
+        if (project.getConsumedHours() <= 0){
+            throw new InvalidProjectAttributesException("Project cannot have negative consumed hours");
+        }
         Date endDate = project.getEndDate();
         Date startDate = project.getStartDate();
 
-        return project.getConsumedHours() >= 0 && startDate.compareTo(endDate) <= 0;
+       if(endDate != null && startDate.compareTo(endDate) <= 0) {
+           throw new InvalidProjectAttributesException("Project's end date cannot be before start date");
+       }
     }
 
     private Project saveProjectWithId(Project project, Long id) {
-        if (!projectHasValidAttributes(project)) {
-            throw new InvalidProjectAttributesException("Project does not have valid attributes");
-        }
+        assertProjectHasValidAttributes(project);
         project.setId(id);
         return projectRepository.save(project);
     }

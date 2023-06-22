@@ -20,14 +20,17 @@ public class TaskService {
     @Autowired
     ProjectService projectService;
 
-    private boolean taskHasValidAttributes(Task task) {
-        return task.getConsumedHours() >= 0;
+    private void assertTaskHasValidAttributes(Task task) {
+        if (task.getProjectId() == null || task.getPriority() == null || task.getState() == null || task.getName() == null) {
+            throw new InvalidTaskAttributesException("Task cannot have null parameters");
+        }
+        if (task.getConsumedHours() <= 0){
+            throw new InvalidTaskAttributesException("Task cannot have negative consumed hours");
+        }
     }
 
     private Task saveTaskWithId(Task task, Long id) {
-        if (!taskHasValidAttributes(task)) {
-            throw new InvalidTaskAttributesException("Task does not have valid attributes");
-        }
+        assertTaskHasValidAttributes(task);
         task.setId(id);
         return taskRepository.save(task);
     }
