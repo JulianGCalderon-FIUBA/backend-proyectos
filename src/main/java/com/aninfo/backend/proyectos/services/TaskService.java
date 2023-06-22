@@ -24,7 +24,7 @@ public class TaskService {
         if (task.getProjectId() == null || task.getPriority() == null || task.getState() == null || task.getName() == null) {
             throw new InvalidTaskAttributesException("Task cannot have null parameters");
         }
-        if (task.getConsumedHours() <= 0){
+        if (task.getConsumedHours() < 0){
             throw new InvalidTaskAttributesException("Task cannot have negative consumed hours");
         }
     }
