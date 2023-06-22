@@ -1,5 +1,6 @@
 package com.aninfo.backend.proyectos.controllers;
 
+import com.aninfo.backend.proyectos.exceptions.InvalidTaskAttributesException;
 import com.aninfo.backend.proyectos.exceptions.TaskNotFoundException;
 import com.aninfo.backend.proyectos.models.Task;
 import com.aninfo.backend.proyectos.services.TaskService;
@@ -21,7 +22,6 @@ public class TaskController {
         try {
             return taskService.findById(id);
         } catch(TaskNotFoundException e) {
-            System.out.println("Error while getting task with id: " + id);
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage(), e);
         }
     }
@@ -32,8 +32,9 @@ public class TaskController {
         try {
             taskService.updateTask(task, id);
         } catch (TaskNotFoundException e) {
-            System.out.println("Error while updating task with id: " + id);
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage(), e);
+        } catch (InvalidTaskAttributesException e) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage(), e);
         }
     }
 
@@ -42,7 +43,6 @@ public class TaskController {
         try {
             taskService.deleteTask(id);
         } catch (TaskNotFoundException e) {
-            System.out.println("Error while deleting task with id: " + id);
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage(), e);
         }
     }
