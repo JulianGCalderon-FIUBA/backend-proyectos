@@ -21,8 +21,17 @@ public class TaskService {
     ProjectService projectService;
 
     private void assertTaskHasValidAttributes(Task task) {
-        if (task.getProjectId() == null || task.getPriority() == null || task.getState() == null || task.getName() == null) {
-            throw new InvalidTaskAttributesException("Task cannot have null parameters");
+        if (task.getProjectId() == null) {
+            throw new InvalidTaskAttributesException("Task cannot have null project ID");
+        }
+        if (task.getPriority() == null) {
+            throw new InvalidTaskAttributesException("Task cannot have null priority");
+        }
+        if (task.getState() == null) {
+            throw new InvalidTaskAttributesException("Task cannot have null state");
+        }
+        if (task.getName() == null) {
+            throw new InvalidTaskAttributesException("Task cannot have null name");
         }
         if (task.getConsumedHours() < 0){
             throw new InvalidTaskAttributesException("Task cannot have negative consumed hours");

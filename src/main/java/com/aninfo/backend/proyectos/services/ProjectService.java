@@ -17,18 +17,23 @@ public class ProjectService {
     ProjectRepository projectRepository;
 
     private void assertProjectHasValidAttributes(Project project) {
-        if (project.getName() == null || project.getStartDate() == null || project.getState() == null) {
-            throw new InvalidProjectAttributesException("Project cannot have null parameters");
+        if (project.getName() == null) {
+            throw new InvalidProjectAttributesException("Project cannot have null name");
+        }
+        if (project.getStartDate() == null) {
+            throw new InvalidProjectAttributesException("Project cannot have null start date");
+        }
+        if (project.getState() == null) {
+            throw new InvalidProjectAttributesException("Project cannot have null state");
         }
         if (project.getConsumedHours() < 0){
             throw new InvalidProjectAttributesException("Project cannot have negative consumed hours");
         }
         Date endDate = project.getEndDate();
         Date startDate = project.getStartDate();
-
-       if(endDate != null && startDate.compareTo(endDate) > 0) {
+        if(endDate != null && startDate.compareTo(endDate) > 0) {
            throw new InvalidProjectAttributesException("Project's end date cannot be before start date");
-       }
+        }
     }
 
     private Project saveProjectWithId(Project project, Long id) {
