@@ -20,13 +20,13 @@ public class ProjectService {
         if (project.getName() == null || project.getStartDate() == null || project.getState() == null) {
             throw new InvalidProjectAttributesException("Project cannot have null parameters");
         }
-        if (project.getConsumedHours() <= 0){
+        if (project.getConsumedHours() < 0){
             throw new InvalidProjectAttributesException("Project cannot have negative consumed hours");
         }
         Date endDate = project.getEndDate();
         Date startDate = project.getStartDate();
 
-       if(endDate != null && startDate.compareTo(endDate) <= 0) {
+       if(endDate != null && startDate.compareTo(endDate) > 0) {
            throw new InvalidProjectAttributesException("Project's end date cannot be before start date");
        }
     }
