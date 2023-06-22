@@ -1,10 +1,8 @@
 package com.aninfo.backend.proyectos.services;
 
 import com.aninfo.backend.proyectos.exceptions.InvalidProjectAttributesException;
-import com.aninfo.backend.proyectos.exceptions.InvalidTaskAttributesException;
 import com.aninfo.backend.proyectos.exceptions.ProjectNotFoundException;
 import com.aninfo.backend.proyectos.models.Project;
-import com.aninfo.backend.proyectos.models.Task;
 import com.aninfo.backend.proyectos.repositories.ProjectRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
