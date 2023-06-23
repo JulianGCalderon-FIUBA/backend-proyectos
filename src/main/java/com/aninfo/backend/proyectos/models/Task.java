@@ -29,11 +29,8 @@ public class Task {
 
     @Column(name = "due_date")
     private Date dueDate;
-    private TaskPriority priority;
-    private TaskState state;
-
-    @Column(name = "consumed_hours")
-    private int consumedHours;
+    private TaskPriority priority = TaskPriority.Medium;
+    private TaskState state = TaskState.NotStarted;
 
     public String getName() {
         return name;
@@ -65,14 +62,6 @@ public class Task {
 
     public void setPriority(TaskPriority priority) {
         this.priority = priority;
-    }
-
-    public int getConsumedHours() {
-        return consumedHours;
-    }
-
-    public void setConsumedHours(int consumedHours) {
-        this.consumedHours = consumedHours;
     }
 
     public TaskState getState() {
