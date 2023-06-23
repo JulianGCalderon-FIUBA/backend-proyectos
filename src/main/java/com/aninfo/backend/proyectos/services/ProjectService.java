@@ -20,7 +20,9 @@ public class ProjectService {
         if (project.getName() == null) {
             throw new InvalidProjectAttributesException("Project cannot have null name");
         }
-
+        if (project.getConsumedHours() < 0){
+            throw new InvalidProjectAttributesException("Project cannot have negative consumed hours");
+        }
         Date endDate = project.getEndDate();
         Date startDate = project.getStartDate();
         if(endDate != null && startDate.compareTo(endDate) > 0) {

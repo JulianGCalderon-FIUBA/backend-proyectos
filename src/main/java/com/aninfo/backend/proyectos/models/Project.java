@@ -30,6 +30,9 @@ public class Project {
 
     private ProjectState state = ProjectState.NotStarted;
 
+    @Column(name = "consumed_hours")
+    private int consumedHours = 0;
+
     public String getName() {
         return name;
     }
@@ -52,6 +55,14 @@ public class Project {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public int getConsumedHours() {
+        return consumedHours;
+    }
+
+    public void setConsumedHours(int consumedHours) {
+        this.consumedHours = consumedHours;
     }
 
     public Long getLeaderId() {

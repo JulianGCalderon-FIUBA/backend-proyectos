@@ -27,6 +27,9 @@ public class TaskService {
         if (task.getName() == null) {
             throw new InvalidTaskAttributesException("Task cannot have null name");
         }
+        if (task.getConsumedHours() < 0){
+            throw new InvalidTaskAttributesException("Task cannot have negative consumed hours");
+        }
     }
 
     private Task saveTaskWithId(Task task, Long id) {
