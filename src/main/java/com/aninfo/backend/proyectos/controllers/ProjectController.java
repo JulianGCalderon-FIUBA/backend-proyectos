@@ -16,6 +16,7 @@ import java.util.Collection;
 
 @RestController
 @RequestMapping("/projects")
+@CrossOrigin()
 public class ProjectController {
 
     @Autowired
