@@ -1,6 +1,8 @@
 package com.aninfo.backend.proyectos.models;
 
 import javax.persistence.*;
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.Date;
 
@@ -21,15 +23,15 @@ public class Project {
     private Long leaderId;
 
     @Column(name = "start_date")
-    private Date startDate;
+    private Date startDate = Date.from(Timestamp.valueOf(LocalDateTime.now()).toInstant());
 
     @Column(name = "end_date")
     private Date endDate;
 
-    private ProjectState state;
+    private ProjectState state = ProjectState.NotStarted;
 
     @Column(name = "consumed_hours")
-    private int consumedHours;
+    private int consumedHours = 0;
 
     public String getName() {
         return name;

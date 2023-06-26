@@ -29,11 +29,11 @@ public class Task {
 
     @Column(name = "due_date")
     private Date dueDate;
-    private TaskPriority priority;
-    private TaskState state;
+    private TaskPriority priority = TaskPriority.Medium;
+    private TaskState state = TaskState.NotStarted;
 
     @Column(name = "consumed_hours")
-    private int consumedHours;
+    private int consumedHours = 0;
 
     public String getName() {
         return name;

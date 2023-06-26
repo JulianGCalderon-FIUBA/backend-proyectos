@@ -1,5 +1,6 @@
 package com.aninfo.backend.proyectos.services;
 
+import com.aninfo.backend.proyectos.exceptions.InvalidProjectAttributesException;
 import com.aninfo.backend.proyectos.exceptions.InvalidTaskAttributesException;
 import com.aninfo.backend.proyectos.exceptions.TaskNotFoundException;
 import com.aninfo.backend.proyectos.models.Project;
@@ -24,17 +25,17 @@ public class TaskService {
         if (task.getProjectId() == null) {
             throw new InvalidTaskAttributesException("Task cannot have null project ID");
         }
-        if (task.getPriority() == null) {
-            throw new InvalidTaskAttributesException("Task cannot have null priority");
-        }
-        if (task.getState() == null) {
-            throw new InvalidTaskAttributesException("Task cannot have null state");
-        }
         if (task.getName() == null) {
             throw new InvalidTaskAttributesException("Task cannot have null name");
         }
         if (task.getConsumedHours() < 0){
             throw new InvalidTaskAttributesException("Task cannot have negative consumed hours");
+        }
+        if (task.getState() == null) {
+            throw new InvalidTaskAttributesException("Task cannot have null state");
+        }
+        if (task.getPriority() == null) {
+            throw new InvalidTaskAttributesException("Task cannot have null priority");
         }
     }
 
