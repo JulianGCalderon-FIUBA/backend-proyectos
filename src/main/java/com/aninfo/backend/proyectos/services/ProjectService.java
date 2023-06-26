@@ -23,6 +23,13 @@ public class ProjectService {
         if (project.getConsumedHours() < 0){
             throw new InvalidProjectAttributesException("Project cannot have negative consumed hours");
         }
+        if (project.getStartDate() == null) {
+            throw new InvalidProjectAttributesException("Project cannot have null start date");
+        }
+        if (project.getState() == null) {
+            throw new InvalidProjectAttributesException("Project cannot have null state");
+        }
+
         Date endDate = project.getEndDate();
         Date startDate = project.getStartDate();
         if(endDate != null && startDate.compareTo(endDate) > 0) {
