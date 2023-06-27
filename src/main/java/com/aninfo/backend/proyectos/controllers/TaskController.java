@@ -9,6 +9,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/tasks")
 @CrossOrigin()
@@ -26,6 +28,13 @@ public class TaskController {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage(), e);
         }
     }
+
+    @GetMapping("")
+    @ResponseStatus(HttpStatus.OK)
+    public Iterable<Task> getTasks(@RequestParam(required = false) List<Long> ids) {
+        return taskService.getTasks(ids);
+    }
+
 
     @PutMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)

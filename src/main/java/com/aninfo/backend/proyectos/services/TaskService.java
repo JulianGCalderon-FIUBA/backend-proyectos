@@ -10,7 +10,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Collection;
+import java.util.Iterator;
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
+import java.util.stream.StreamSupport;
 
 @Service
 public class TaskService {
@@ -64,7 +69,7 @@ public class TaskService {
         return saveTaskWithId(task,0L);
     }
 
-    public Collection<Task> getTasksForProject(Long projectId) {
+    public Iterable<Task> getTasksForProject(Long projectId) {
         projectService.findById(projectId);
         return taskRepository.findAllByProjectId(projectId);
     }
@@ -72,5 +77,15 @@ public class TaskService {
     public void updateTask(Task task, Long id) {
         this.findById(id);
         saveTaskWithId(task, id);
+    }
+
+    public Iterable<Task> getTasks(List<Long> ids) {
+        Stream<Task> tasks = StreamSupport.stream(taskRepository.findAll().spliterator(), false);;
+
+        if (ids != null) {
+            tasks = tasks.filter(task -> ids.contains(task.getId()));
+        }
+
+        return tasks.toList();
     }
 }

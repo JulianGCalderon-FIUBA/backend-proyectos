@@ -84,7 +84,7 @@ public class ProjectController {
     }
 
     @GetMapping("/{id}/tasks")
-    public Collection<Task> getTasks(@PathVariable("id") Long projectId) {
+    public Iterable<Task> getTasks(@PathVariable("id") Long projectId) {
         try {
             return taskService.getTasksForProject(projectId);
         } catch (ProjectNotFoundException e) {
